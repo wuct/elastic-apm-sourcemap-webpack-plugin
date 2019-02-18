@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
-
+import webpack from 'webpack';
 // TODO: fix type errors
 
 type config = {
@@ -11,17 +11,18 @@ type config = {
   serverURL: string;
 };
 
-export default class ElasticAPMSourceMapPlugin {
+export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
   config: config;
   constructor(config: config) {
     this.config = config;
   }
-  apply(compiler) {
+
+  apply(compiler: webpack.Compiler) {
     compiler.hooks.afterEmit.tapPromise('ElasticAPMSourceMapPlugin', compilation => {
       const { chunks } = compilation.getStats().toJson();
 
       return R.compose(
-        promises => Promise.all(promises),
+        (promises: Array<Promise<void>>) => Promise.all(promises),
         R.map(({ sourceFile, sourceMap }) => {
           const formData = new FormData();
           formData.append('sourcemap', compilation.assets[sourceMap].source());
@@ -44,8 +45,8 @@ export default class ElasticAPMSourceMapPlugin {
             });
         }),
         R.map(({ files }) => {
-          const sourceFile = R.find(file => /\.js$/.test(file), files);
-          const sourceMap = R.find(file => /\.js\.map$/.test(file), files);
+          const sourceFile = R.find(R.test(/\.js$/), files);
+          const sourceMap = R.find(R.test(/\.js\.map$/), files);
 
           return { sourceFile, sourceMap };
         })
