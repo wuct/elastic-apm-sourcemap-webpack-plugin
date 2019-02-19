@@ -3,21 +3,20 @@ import fetch from 'node-fetch';
 import FormData from 'form-data';
 import webpack from 'webpack';
 // TODO: fix type errors
-
-type config = {
+interface Config {
   serviceName: string;
   serviceVersion: string;
   publicPath: string;
   serverURL: string;
-};
+}
 
 export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
-  config: config;
-  constructor(config: config) {
+  config: Config;
+  constructor(config: Config) {
     this.config = config;
   }
 
-  apply(compiler: webpack.Compiler) {
+  apply(compiler: webpack.Compiler): void {
     compiler.hooks.afterEmit.tapPromise('ElasticAPMSourceMapPlugin', compilation => {
       const { chunks } = compilation.getStats().toJson();
 
