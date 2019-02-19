@@ -38,12 +38,7 @@
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
-    "semantic-release-prepare": "babel-node tools/semantic-release-prepare.ts",
-    "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once",
-    "prepublish": "npm run build",
-    "prepush": "npm run test:prod && npm run build",
-    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
+    "semantic-release-prepare": "babel-node tools/semantic-release-prepare.ts"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -141,5 +136,12 @@
   },
   "peerDependencies": {
     "webpack": "^4.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test:prod && npm run build"
+    }
   }
 }
