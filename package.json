@@ -1,6 +1,6 @@
 {
   "name": "elastic-apm-sourcemap-webpack-plugin",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "",
   "keywords": [],
   "main": "dist/elastic-apm-sourcemap-webpack-plugin.umd.js",
@@ -28,14 +28,16 @@
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "deploy-docs": "ts-node tools/gh-pages-publish",
+    "deploy-docs": "babel-node tools/gh-pages-publish.ts",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
-    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
+    "semantic-release-prepare": "babel-node tools/semantic-release-prepare.ts",
     "precommit": "lint-staged",
     "travis-deploy-once": "travis-deploy-once",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "prepush": "npm run test:prod && npm run build",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -125,7 +127,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.19.2",
-    "semantic-release": "^15.9.16",
+    "semantic-release": "^15.13.3",
     "shelljs": "^0.8.3",
     "typedoc": "^0.14.2",
     "typescript": "^3.0.3",
