@@ -2,12 +2,13 @@ import * as R from 'ramda';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import webpack from 'webpack';
-// TODO: fix type errors
-interface Config {
+
+export interface Config {
   serviceName: string;
   serviceVersion: string;
   publicPath: string;
   serverURL: string;
+  secret?: string;
 }
 
 export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
@@ -29,9 +30,14 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
           formData.append('bundle_filepath', `${this.config.publicPath}/${sourceFile}`);
           formData.append('service_name', this.config.serviceName);
 
+          const headers = this.config.secret
+            ? { Authorization: `Bearer ${this.config.secret}` }
+            : undefined;
+
           return fetch(this.config.serverURL, {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: headers
           })
             .then(response => {
               if (response.ok) return response.json();
