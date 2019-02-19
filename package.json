@@ -2,7 +2,13 @@
   "name": "elastic-apm-sourcemap-webpack-plugin",
   "version": "0.0.0-development",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "elastic",
+    "elasticapm",
+    "apm",
+    "webpack",
+    "sourcemap"
+  ],
   "main": "dist/elastic-apm-sourcemap-webpack-plugin.umd.js",
   "module": "dist/elastic-apm-sourcemap-webpack-plugin.es5.js",
   "typings": "dist/types/elastic-apm-sourcemap-webpack-plugin.d.ts",
