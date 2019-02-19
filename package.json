@@ -1,6 +1,6 @@
 {
   "name": "elastic-apm-sourcemap-webpack-plugin",
-  "version": "0.0.1-alpha",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
   "main": "dist/elastic-apm-sourcemap-webpack-plugin.umd.js",
