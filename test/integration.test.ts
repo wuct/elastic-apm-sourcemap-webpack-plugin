@@ -55,7 +55,8 @@ test('failed', cb => {
       serviceName: 'mock-service',
       serviceVersion: 'mock-version',
       publicPath: '/mock-folder',
-      serverURL: 'mock-url'
+      serverURL: 'mock-url',
+      logLevel: 'silent'
     }),
     err => {
       expect(fetch.mock.calls.length).toEqual(1);
@@ -75,7 +76,8 @@ test('400', cb => {
       serviceName: 'mock-service',
       serviceVersion: 'mock-version',
       publicPath: '/mock-folder',
-      serverURL: 'mock-url'
+      serverURL: 'mock-url',
+      logLevel: 'silent'
     }),
     err => {
       expect(fetch.mock.calls.length).toEqual(1);
@@ -96,7 +98,8 @@ test('with secret', cb => {
       serviceVersion: 'mock-version',
       publicPath: '/mock-folder',
       serverURL: 'mock-url',
-      secret: 'mock-secret'
+      secret: 'mock-secret',
+      logLevel: 'silent'
     }),
     () => {
       expect(fetch.mock.calls[0][1].headers).toEqual({ Authorization: 'Bearer mock-secret' });
