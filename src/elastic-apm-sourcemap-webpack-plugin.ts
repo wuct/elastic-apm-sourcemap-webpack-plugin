@@ -2,6 +2,7 @@ import * as R from 'ramda';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import webpack from 'webpack';
+import webpackLog, { Level } from 'webpack-log';
 
 export interface Config {
   serviceName: string;
@@ -9,6 +10,7 @@ export interface Config {
   publicPath: string;
   serverURL: string;
   secret?: string;
+  logLevel?: Level;
 }
 
 export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
@@ -18,11 +20,24 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
   }
 
   apply(compiler: webpack.Compiler): void {
+    const logger = webpackLog({
+      name: 'ElasticAPMSourceMapPlugin',
+      level: this.config.logLevel || 'warn'
+    });
+
     compiler.hooks.afterEmit.tapPromise('ElasticAPMSourceMapPlugin', compilation => {
+      logger.debug(`starting uploading sourcemaps with configs: ${JSON.stringify(this.config)}.`);
+
       const { chunks } = compilation.getStats().toJson();
 
       return R.compose(
-        (promises: Array<Promise<void>>) => Promise.all(promises),
+        (promises: Array<Promise<void>>) =>
+          Promise.all(promises)
+            .then(() => logger.debug('finished uploading sourcemaps.'))
+            .catch(err => {
+              logger.error(err);
+              throw err;
+            }),
         R.map(({ sourceFile, sourceMap }) => {
           const formData = new FormData();
           formData.append('sourcemap', compilation.assets[sourceMap].source());
@@ -42,11 +57,13 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             .then(response => {
               if (response.ok) return response.json();
               else {
-                throw new Error(`Error while uploading ${sourceMap} to Elastic APM`);
+                const errMessage = `Error while uploading ${sourceMap} to Elastic APM`;
+                logger.error(errMessage);
+                throw new Error(errMessage);
               }
             })
             .then(() => {
-              console.info(`Uploaded ${sourceMap} to Elastic APM`); // eslint-disable-line no-console
+              logger.debug(`uploaded ${sourceMap} to Elastic APM.`);
             });
         }),
         R.map(({ files }) => {

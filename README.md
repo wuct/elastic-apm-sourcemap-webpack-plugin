@@ -43,7 +43,8 @@ const webpackConfig = {
       serviceVersion: 'SERVICE_VERSION',
       serverURL: 'https://ELASTIC_APM_SERVER_URL',
       publicPath: PUBLIC_PATH,
-      secret: 'SECRET'
+      secret: 'SECRET',
+      logLevel: 'debug'
     })
   ]
 };
@@ -72,6 +73,10 @@ Required. The base path for the assets.
 #### secret?: string
 
 Optional. The secret token for uploading sourcemaps. This field is required if the APM server needs it.
+
+#### logLevel?: 'info' | 'warn' | 'error' | 'trace' | 'debug' | 'silent'
+
+Optional. Default to `'warn'`. Level of the messages that `ElasticAPMSourceMapPlugin` will log.
 
 ## License
 
