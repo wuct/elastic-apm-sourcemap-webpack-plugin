@@ -37,8 +37,7 @@
     "deploy-docs": "babel-node tools/gh-pages-publish.ts",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "commit": "git-cz",
-    "semantic-release": "semantic-release",
-    "semantic-release-prepare": "babel-node tools/semantic-release-prepare.ts"
+    "semantic-release": "semantic-release"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
