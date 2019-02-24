@@ -27,14 +27,13 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts ./",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "deploy-docs": "babel-node tools/gh-pages-publish.ts",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "commit": "git-cz",
     "semantic-release": "semantic-release"
