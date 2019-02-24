@@ -84,6 +84,10 @@
   },
   "release": {
     "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
       [
         "@semantic-release/git",
         {
@@ -110,7 +114,11 @@
     "@babel/preset-typescript": "^7.1.0",
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
     "@semantic-release/git": "^7.0.8",
+    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/release-notes-generator": "^7.1.4",
     "@types/form-data": "^2.2.1",
     "@types/jest": "^24.0.6",
     "@types/node-fetch": "^2.1.6",
