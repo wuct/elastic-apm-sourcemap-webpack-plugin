@@ -83,6 +83,19 @@
       "@commitlint/config-conventional"
     ]
   },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
   "dependencies": {
     "form-data": "^2.3.3",
     "node-fetch": "^2.3.0",
@@ -98,6 +111,7 @@
     "@babel/preset-typescript": "^7.1.0",
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@semantic-release/git": "^7.0.8",
     "@types/form-data": "^2.2.1",
     "@types/jest": "^24.0.6",
     "@types/node-fetch": "^2.1.6",
