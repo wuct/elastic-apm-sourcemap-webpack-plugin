@@ -27,7 +27,7 @@ An example of `webpack.config.js`:
 ```js
 const ElasticAPMSourceMapPlugin = require('elastic-apm-sourcemap-webpack-plugin');
 const path = require('path');
-const PUBLIC_PATH = 'path/to/assets';
+const PUBLIC_PATH = 'https://path/to/assets';
 
 const webpackConfig = {
   mode: 'production',
@@ -68,7 +68,7 @@ Required. The URL of the APM server to upload sourcemaps to.
 
 #### publicPath: string
 
-Required. The base path for the assets.
+Required. The base path which will be used to create the `bundle_filepath`. Need to be an absolute path.
 
 #### secret?: string
 

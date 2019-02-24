@@ -40,9 +40,11 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             }),
         R.map(({ sourceFile, sourceMap }) => {
           const formData = new FormData();
+          const bundleFilePath = `${this.config.publicPath}/${sourceFile}`;
+
           formData.append('sourcemap', compilation.assets[sourceMap].source());
           formData.append('service_version', this.config.serviceVersion);
-          formData.append('bundle_filepath', `${this.config.publicPath}/${sourceFile}`);
+          formData.append('bundle_filepath', bundleFilePath);
           formData.append('service_name', this.config.serviceName);
 
           const headers = this.config.secret
@@ -57,13 +59,15 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             .then(response => {
               if (response.ok) return response.json();
               else {
-                const errMessage = `Error while uploading ${sourceMap} to Elastic APM`;
+                const errMessage = `error while uploading ${sourceMap} to Elastic APM. Response ${response.text()}`;
                 logger.error(errMessage);
                 throw new Error(errMessage);
               }
             })
             .then(() => {
-              logger.debug(`uploaded ${sourceMap} to Elastic APM.`);
+              logger.debug(
+                `uploaded ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
+              );
             });
         }),
         R.map(({ files }) => {
