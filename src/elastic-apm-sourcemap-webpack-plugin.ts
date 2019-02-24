@@ -56,21 +56,21 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             body: formData,
             headers: headers
           })
-            .then(response => {
-              const responseText = response.text();
-              if (response.ok) {
-                logger.debug(responseText);
-                return responseText;
+            .then(response => Promise.all([response.ok, response.text()]))
+            .then(([ok, responseText]) => {
+              if (ok) {
+                logger.debug(`APM server response: ${responseText}`);
+                logger.debug(
+                  `uploaded ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
+                );
               } else {
-                const errMessage = `error while uploading ${sourceMap} to Elastic APM. Response ${responseText}`;
-                logger.error(errMessage);
-                throw new Error(errMessage);
+                logger.error(`APM server response: ${responseText}`);
+                throw new Error(`error while uploading ${sourceMap} to Elastic APM`);
               }
             })
-            .then(() => {
-              logger.debug(
-                `uploaded ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
-              );
+            .catch(err => {
+              logger.error(err);
+              throw err;
             });
         }),
         R.map(({ files }) => {
