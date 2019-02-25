@@ -42,7 +42,10 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
           const formData = new FormData();
           const bundleFilePath = `${this.config.publicPath}/${sourceFile}`;
 
-          formData.append('sourcemap', compilation.assets[sourceMap].source());
+          formData.append('sourcemap', compilation.assets[sourceMap].source(), {
+            filename: sourceMap,
+            contentType: 'application/json'
+          });
           formData.append('service_version', this.config.serviceVersion);
           formData.append('bundle_filepath', bundleFilePath);
           formData.append('service_name', this.config.serviceName);
@@ -50,6 +53,10 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
           const headers = this.config.secret
             ? { Authorization: `Bearer ${this.config.secret}` }
             : undefined;
+
+          logger.debug(
+            `uploading ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
+          );
 
           return fetch(this.config.serverURL, {
             method: 'POST',
@@ -59,10 +66,7 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             .then(response => Promise.all([response.ok, response.text()]))
             .then(([ok, responseText]) => {
               if (ok) {
-                logger.debug(`APM server response: ${responseText}`);
-                logger.debug(
-                  `uploaded ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
-                );
+                logger.debug(`uploaded ${sourceMap}.`);
               } else {
                 logger.error(`APM server response: ${responseText}`);
                 throw new Error(`error while uploading ${sourceMap} to Elastic APM`);
