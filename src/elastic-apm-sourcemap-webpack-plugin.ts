@@ -11,18 +11,25 @@ export interface Config {
   serverURL: string;
   secret?: string;
   logLevel?: Level;
+  ignoreErrors?: boolean;
 }
 
 export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
   config: Config;
   constructor(config: Config) {
-    this.config = config;
+    this.config = Object.assign(
+      {
+        logLevel: 'warn',
+        ignoreErrors: false
+      },
+      config
+    );
   }
 
   apply(compiler: webpack.Compiler): void {
     const logger = webpackLog({
       name: 'ElasticAPMSourceMapPlugin',
-      level: this.config.logLevel || 'warn'
+      level: this.config.logLevel
     });
 
     compiler.hooks.afterEmit.tapPromise('ElasticAPMSourceMapPlugin', compilation => {
@@ -36,7 +43,8 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             .then(() => logger.debug('finished uploading sourcemaps.'))
             .catch(err => {
               logger.error(err);
-              throw err;
+
+              if (!this.config.ignoreErrors) throw err;
             }),
         R.map(({ sourceFile, sourceMap }) => {
           const formData = new FormData();
@@ -71,10 +79,6 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
                 logger.error(`APM server response: ${responseText}`);
                 throw new Error(`error while uploading ${sourceMap} to Elastic APM`);
               }
-            })
-            .catch(err => {
-              logger.error(err);
-              throw err;
             });
         }),
         R.map(({ files }) => {

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`failed 1`] = `
+Array [
+  Array [
+    "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
+  ],
+  Array [
+    "uploading main.js.map to Elastic APM with bundle_filepath: /mock-folder/main.js.",
+  ],
+]
+`;
+
+exports[`failed 2`] = `
+Array [
+  Array [
+    "failed",
+  ],
+]
+`;
+
+exports[`ok 1`] = `
+Array [
+  Array [
+    "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
+  ],
+  Array [
+    "uploading main.js.map to Elastic APM with bundle_filepath: /mock-folder/main.js.",
+  ],
+  Array [
+    "uploaded main.js.map.",
+  ],
+  Array [
+    "finished uploading sourcemaps.",
+  ],
+]
+`;
