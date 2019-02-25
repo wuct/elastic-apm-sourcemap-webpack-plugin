@@ -41,7 +41,7 @@ const webpackConfig = {
     new ElasticAPMSourceMapPlugin({
       serviceName: 'SERVICE_NAME',
       serviceVersion: 'SERVICE_VERSION',
-      serverURL: 'https://ELASTIC_APM_SERVER_URL',
+      serverURL: 'http://127.0.0.1:8200/assets/v1/sourcemaps',
       publicPath: PUBLIC_PATH,
       secret: 'SECRET',
       logLevel: 'debug'
