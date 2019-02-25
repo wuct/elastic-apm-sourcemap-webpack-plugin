@@ -78,6 +78,10 @@ Optional. The secret token for uploading sourcemaps. This field is required if t
 
 Optional. Default to `'warn'`. Level of the messages that `ElasticAPMSourceMapPlugin` will log.
 
+#### ignoreErrors?: boolean
+
+Optional. Default to `false`. Set it to `true` to avoid adding errors to the webpack compilation.
+
 ## License
 
 [MIT](/LICENSE.md)
