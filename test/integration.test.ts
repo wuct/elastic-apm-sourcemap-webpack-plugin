@@ -16,7 +16,6 @@ jest.mock('webpack-log', () => {
 
 const getWebpackConfig = (pluginConfig: Config): webpack.Configuration => ({
   entry: path.resolve(__dirname, './entry.js'),
-  mode: 'production',
   devtool: 'source-map',
   plugins: [new ElasticAPMSourceMapPlugin(pluginConfig)]
 });
