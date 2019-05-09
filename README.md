@@ -25,11 +25,11 @@ $ yarn add elastic-apm-sourcemap-webpack-plugin --dev
 An example of `webpack.config.js`:
 
 ```js
-const ElasticAPMSourceMapPlugin = require('elastic-apm-sourcemap-webpack-plugin');
+const ElasticAPMSourceMapPlugin = require('elastic-apm-sourcemap-webpack-plugin').default;
 const path = require('path');
 const PUBLIC_PATH = 'https://path/to/assets';
 
-const webpackConfig = {
+module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, './entry.js'),
   publicPath: PUBLIC_PATH,
@@ -47,6 +47,17 @@ const webpackConfig = {
       logLevel: 'debug'
     })
   ]
+};
+```
+
+If you are using `webpack.babel.js`, you can import it without `.default`:
+
+```js
+import ElasticAPMSourceMapPlugin from 'elastic-apm-sourcemap-webpack-plugin';
+
+export default {
+  // ...
+  plugins: [new ElasticAPMSourceMapPlugin(/* ... */)]
 };
 ```
 
