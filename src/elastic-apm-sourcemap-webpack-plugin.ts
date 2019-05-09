@@ -1,8 +1,15 @@
 import * as R from 'ramda';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
-import webpack from 'webpack';
+import webpack, { Stats } from 'webpack';
 import webpackLog, { Level } from 'webpack-log';
+
+type Chunks = Stats.ToJsonOutput['chunks'];
+interface Source {
+  sourceFile?: string;
+  sourceMap?: string;
+}
+type UploadTask = Promise<void>;
 
 export interface Config {
   serviceName: string;
@@ -36,9 +43,9 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
 
     logger.debug(`starting uploading sourcemaps with configs: ${JSON.stringify(this.config)}.`);
 
-    const { chunks } = compilation.getStats().toJson();
+    const { chunks = [] } = compilation.getStats().toJson();
 
-    return R.compose(
+    return R.compose<NonNullable<Chunks>, Source[], UploadTask[], Promise<void>>(
       (promises: Array<Promise<void>>) =>
         Promise.all(promises)
           .then(() => {
@@ -55,6 +62,13 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
             }
           }),
       R.map(({ sourceFile, sourceMap }) => {
+        /* istanbul ignore next */
+        if (!sourceFile || !sourceMap) {
+          // It is impossible for Wepback to run into here.
+          logger.debug('there is no .js files to be uploaded.');
+          return Promise.resolve();
+        }
+
         const formData = new FormData();
         const bundleFilePath = `${this.config.publicPath}/${sourceFile}`;
 
@@ -99,7 +113,8 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
   }
 
   apply(compiler: webpack.Compiler): void {
-    /* istanbul ignore if */
+    // We only run tests against Webpack 4 currently.
+    /* istanbul ignore next */
     if (compiler.hooks) {
       compiler.hooks.afterEmit.tapAsync('ElasticAPMSourceMapPlugin', (compilation, callback) =>
         this.afterEmit(compilation, callback)
