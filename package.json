@@ -109,7 +109,7 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-typescript": "^7.1.0",
-    "@commitlint/cli": "^7.1.2",
+    "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^7.1.2",
     "@semantic-release/changelog": "^3.0.2",
     "@semantic-release/commit-analyzer": "^6.1.0",
