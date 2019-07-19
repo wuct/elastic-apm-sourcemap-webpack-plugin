@@ -126,7 +126,7 @@
     "babel-jest": "^24.8.0",
     "codecov": "^3.5.0",
     "commitizen": "^3.1.1",
-    "cz-conventional-changelog": "^2.1.0",
+    "cz-conventional-changelog": "^3.0.0",
     "eslint": "^6.0.1",
     "husky": "^3.0.0",
     "jest": "^24.8.0",
