@@ -27,7 +27,7 @@ beforeEach(() => {
   require('webpack-log')().error.mockReset();
 });
 
-test('ok', cb => {
+test('send to the server successfully', cb => {
   require('node-fetch').mockResponse(JSON.stringify('ok'));
 
   webpack(
@@ -46,20 +46,31 @@ test('ok', cb => {
         return cb(stats.toJson().errors);
       }
 
-      expect(require('node-fetch').mock.calls.length).toEqual(1);
-      expect(require('node-fetch').mock.calls[0][0]).toEqual('mock-url');
-      expect(require('node-fetch').mock.calls[0][1].method).toEqual('POST');
+      const fetchMock = require('node-fetch').mock;
+
+      expect(fetchMock.calls.length).toEqual(1);
+      expect(fetchMock.calls[0][0]).toEqual('mock-url');
+      expect(fetchMock.calls[0][1].method).toEqual('POST');
 
       expect(require('webpack-log')().debug.mock.calls).toMatchSnapshot();
 
-      // TODO: check body
+      const body = fetchMock.calls[0][1].body;
+      const boundary = body.getBoundary();
+
+      expect(
+        body
+          .getBuffer()
+          .toString()
+          // The form boundary is changed when re-created, so we need to fix it.
+          .replace(new RegExp(boundary, 'g'), 'FIXED-BOUNDARY')
+      ).toMatchSnapshot();
 
       cb();
     }
   );
 });
 
-test('failed', cb => {
+test('fail to reach the server', cb => {
   require('node-fetch').mockReject('failed');
 
   webpack(
@@ -83,7 +94,7 @@ test('failed', cb => {
   );
 });
 
-test('400', cb => {
+test('the server responses 400', cb => {
   require('node-fetch').mockResponses(['failed', { status: 400 }]);
 
   webpack(
@@ -103,7 +114,7 @@ test('400', cb => {
   );
 });
 
-test('400 but ignoreErrors', cb => {
+test('the server responses 400 but ignoreErrors is true', cb => {
   require('node-fetch').mockResponses(['failed', { status: 400 }]);
 
   webpack(
@@ -123,7 +134,7 @@ test('400 but ignoreErrors', cb => {
   );
 });
 
-test('with secret', cb => {
+test('append the secret as a bearer token when provided', cb => {
   require('node-fetch').mockResponse(JSON.stringify('ok'));
 
   webpack(
