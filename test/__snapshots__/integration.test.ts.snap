@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`failed 1`] = `
+exports[`fail to reach the server 1`] = `
 Array [
   Array [
     "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
@@ -11,7 +11,7 @@ Array [
 ]
 `;
 
-exports[`failed 2`] = `
+exports[`fail to reach the server 2`] = `
 Array [
   Array [
     "failed",
@@ -19,7 +19,7 @@ Array [
 ]
 `;
 
-exports[`ok 1`] = `
+exports[`send to the server successfully 1`] = `
 Array [
   Array [
     "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",

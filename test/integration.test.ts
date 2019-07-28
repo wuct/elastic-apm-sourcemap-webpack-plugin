@@ -27,7 +27,7 @@ beforeEach(() => {
   require('webpack-log')().error.mockReset();
 });
 
-test('ok', cb => {
+test('send to the server successfully', cb => {
   require('node-fetch').mockResponse(JSON.stringify('ok'));
 
   webpack(
@@ -59,7 +59,7 @@ test('ok', cb => {
   );
 });
 
-test('failed', cb => {
+test('fail to reach the server', cb => {
   require('node-fetch').mockReject('failed');
 
   webpack(
@@ -83,7 +83,7 @@ test('failed', cb => {
   );
 });
 
-test('400', cb => {
+test('the server responses 400', cb => {
   require('node-fetch').mockResponses(['failed', { status: 400 }]);
 
   webpack(
@@ -103,7 +103,7 @@ test('400', cb => {
   );
 });
 
-test('400 but ignoreErrors', cb => {
+test('the server responses 400 but ignoreErrors is true', cb => {
   require('node-fetch').mockResponses(['failed', { status: 400 }]);
 
   webpack(
@@ -123,7 +123,7 @@ test('400 but ignoreErrors', cb => {
   );
 });
 
-test('with secret', cb => {
+test('append the secret as a bearer token when provided', cb => {
   require('node-fetch').mockResponse(JSON.stringify('ok'));
 
   webpack(
