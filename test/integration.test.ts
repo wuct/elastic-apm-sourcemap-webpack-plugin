@@ -46,13 +46,24 @@ test('send to the server successfully', cb => {
         return cb(stats.toJson().errors);
       }
 
-      expect(require('node-fetch').mock.calls.length).toEqual(1);
-      expect(require('node-fetch').mock.calls[0][0]).toEqual('mock-url');
-      expect(require('node-fetch').mock.calls[0][1].method).toEqual('POST');
+      const fetchMock = require('node-fetch').mock;
+
+      expect(fetchMock.calls.length).toEqual(1);
+      expect(fetchMock.calls[0][0]).toEqual('mock-url');
+      expect(fetchMock.calls[0][1].method).toEqual('POST');
 
       expect(require('webpack-log')().debug.mock.calls).toMatchSnapshot();
 
-      // TODO: check body
+      const body = fetchMock.calls[0][1].body;
+      const boundary = body.getBoundary();
+
+      expect(
+        body
+          .getBuffer()
+          .toString()
+          // The form boundary is changed when re-created, so we need to fix it.
+          .replace(new RegExp(boundary, 'g'), 'FIXED-BOUNDARY')
+      ).toMatchSnapshot();
 
       cb();
     }
