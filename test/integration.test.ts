@@ -17,7 +17,11 @@ jest.mock('webpack-log', () => {
 const getWebpackConfig = (pluginConfig: Config): webpack.Configuration => ({
   entry: path.resolve(__dirname, './entry.js'),
   devtool: 'source-map',
-  plugins: [new ElasticAPMSourceMapPlugin(pluginConfig)]
+  plugins: [new ElasticAPMSourceMapPlugin(pluginConfig)],
+  // TODO: remove this after Webpack 5
+  output: {
+    futureEmitAssets: true
+  }
 });
 
 beforeEach(() => {
