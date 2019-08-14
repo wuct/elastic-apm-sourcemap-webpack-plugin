@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "author": "wuct <wu.chingting@gmail.com>",
+  "author": "wuct <wu.chingting@gmail.com>, Sebastian Felix Zappe <sebastian@sozialhelden.de>",
   "repository": {
     "type": "git",
     "url": "https://github.com/wuct/elastic-apm-sourcemap-webpack-plugin"

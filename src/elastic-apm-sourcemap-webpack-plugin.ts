@@ -32,7 +32,7 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
     );
   }
 
-  afterEmit(
+  emit(
     compilation: webpack.compilation.Compilation,
     callback: (error?: Error) => void
   ): Promise<void> {
@@ -116,12 +116,12 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
     // We only run tests against Webpack 4 currently.
     /* istanbul ignore next */
     if (compiler.hooks) {
-      compiler.hooks.afterEmit.tapAsync('ElasticAPMSourceMapPlugin', (compilation, callback) =>
-        this.afterEmit(compilation, callback)
+      compiler.hooks.emit.tapAsync('ElasticAPMSourceMapPlugin', (compilation, callback) =>
+        this.emit(compilation, callback)
       );
     } else {
-      compiler.plugin('after-emit', (compilation, callback) =>
-        this.afterEmit(compilation, callback)
+      compiler.plugin('emit', (compilation, callback) =>
+        this.emit(compilation, callback)
       );
     }
   }
