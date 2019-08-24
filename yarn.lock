@@ -1381,12 +1381,12 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/ramda@0.26.19":
-  version "0.26.19"
-  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.19.tgz#400580597566c016e9743f17c1c48bf4671cda81"
-  integrity sha512-lJuMZDXqZ8W2hl0Gz+wEPUhXcf/tZRuaO5vrxFD3Dv2XMqgTZVw+bvfS6iQAsio9XQV+uhkggtT4eLhDmUpI5g==
+"@types/ramda@0.26.21":
+  version "0.26.21"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.21.tgz#cfd552c679453d153a9e2fd89ffc5dd5aa93d2c9"
+  integrity sha512-zMYtIZMceA6BvH+or6LmewLBgojbXg5+FGCwjO8K+Z+d/ZWxILmhhASXkehW0PqJL+V0QbyDeeAHix0dvEKXfQ==
   dependencies:
-    ts-toolbelt "^3.2.22"
+    ts-toolbelt "^3.8.4"
 
 "@types/retry@^0.12.0":
   version "0.12.0"
@@ -9390,10 +9390,10 @@ trim-right@^1.0.1:
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
-ts-toolbelt@^3.2.22:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-3.7.1.tgz#b52dbf625069d7ecc1120d6e2ba558152428998e"
-  integrity sha512-rEIk3vYCAEQ1qvCvlYjfgNdAu5BIxRIcDSgJBEDsz5UR1/oKIJz7/I8yE8x1rPqs1o2A4deCuqVvuzdMk5JxiQ==
+ts-toolbelt@^3.8.4:
+  version "3.8.16"
+  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-3.8.16.tgz#f839a8fec26cf882e8586034aeb78a5a766a01b4"
+  integrity sha512-bMymH0SWHbReBzXtsfILYPemRpxzY6hANCI0toxMYz3VizXKesru2+5SS2wDenkSPMkehSm8DiMay+KxzRXX1A==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
