@@ -137,7 +137,7 @@
     "rimraf": "3.0.0",
     "semantic-release": "15.13.24",
     "typescript": "3.6.3",
-    "webpack": "4.40.0",
+    "webpack": "4.40.1",
     "webpack-log": "3.0.1"
   },
   "peerDependencies": {
