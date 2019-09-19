@@ -19,6 +19,8 @@ export interface Config {
   secret?: string;
   logLevel?: Level;
   ignoreErrors?: boolean;
+  retryCount?: number;
+  retryAfterMs?: number;
 }
 export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
   config: Config;
@@ -26,7 +28,8 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
     this.config = Object.assign(
       {
         logLevel: 'warn',
-        ignoreErrors: false
+        ignoreErrors: false,
+        retryCount: 0
       },
       config
     );
@@ -64,7 +67,7 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
       R.map(({ sourceFile, sourceMap }) => {
         /* istanbul ignore next */
         if (!sourceFile || !sourceMap) {
-          // It is impossible for Wepback to run into here.
+          // It is impossible for Webpack to run into here.
           logger.debug('there is no .js files to be uploaded.');
           return Promise.resolve();
         }
@@ -84,24 +87,45 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
           ? { Authorization: `Bearer ${this.config.secret}` }
           : undefined;
 
-        logger.debug(
-          `uploading ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
-        );
+        const send = async (retryCount = this.config.retryCount): Promise<void> => {
+          const displayRetry = (this.config.retryCount || 0) - (retryCount || 0) > 0;
 
-        return fetch(this.config.serverURL, {
-          method: 'POST',
-          body: formData,
-          headers: headers
-        })
-          .then(response => Promise.all([response.ok, response.text()]))
-          .then(([ok, responseText]) => {
-            if (ok) {
-              logger.debug(`uploaded ${sourceMap}.`);
-            } else {
-              logger.error(`APM server response: ${responseText}`);
-              throw new Error(`error while uploading ${sourceMap} to Elastic APM`);
-            }
-          });
+          logger.debug(
+            `${
+              displayRetry ? 'retry ' : ''
+            }uploading ${sourceMap} to Elastic APM with bundle_filepath: ${bundleFilePath}.`
+          );
+
+          return fetch(this.config.serverURL, {
+            method: 'POST',
+            body: formData,
+            headers: headers
+          })
+            .then(response => Promise.all([response.ok, response.text()]))
+            .then(([ok, responseText]) => {
+              if (ok) {
+                logger.debug(`uploaded ${sourceMap}.`);
+              } else {
+                logger.error(`APM server response: ${responseText}`);
+                throw new Error(`error while uploading ${sourceMap} to Elastic APM`);
+              }
+            })
+            .catch((e: Error) => {
+              if (retryCount && retryCount > 0) {
+                logger.debug(`retry upload ${sourceMap} after ${this.config.retryAfterMs || 0}ms.`);
+                return (new Promise(resolve => {
+                  if (this.config.retryCount) {
+                    setTimeout(() => resolve(retryCount), this.config.retryAfterMs);
+                  } else {
+                    resolve(retryCount);
+                  }
+                }) as Promise<number>).then(retryCount => send(retryCount--));
+              }
+              throw e;
+            });
+        };
+
+        return send(this.config.retryCount);
       }),
       R.map(({ files }) => {
         const sourceFile = R.find(R.test(/\.js$/), files);
@@ -120,9 +144,7 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
         this.emit(compilation, callback)
       );
     } else {
-      compiler.plugin('emit', (compilation, callback) =>
-        this.emit(compilation, callback)
-      );
+      compiler.plugin('emit', (compilation, callback) => this.emit(compilation, callback));
     }
   }
 }
