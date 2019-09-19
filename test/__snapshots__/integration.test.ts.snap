@@ -3,7 +3,7 @@
 exports[`fail to reach the server 1`] = `
 Array [
   Array [
-    "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
+    "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"retryCount\\":0,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
   ],
   Array [
     "uploading main.js.map to Elastic APM with bundle_filepath: /mock-folder/main.js.",
@@ -22,7 +22,7 @@ Array [
 exports[`send to the server successfully 1`] = `
 Array [
   Array [
-    "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
+    "starting uploading sourcemaps with configs: {\\"logLevel\\":\\"warn\\",\\"ignoreErrors\\":false,\\"retryCount\\":0,\\"serviceName\\":\\"mock-service\\",\\"serviceVersion\\":\\"mock-version\\",\\"publicPath\\":\\"/mock-folder\\",\\"serverURL\\":\\"mock-url\\"}.",
   ],
   Array [
     "uploading main.js.map to Elastic APM with bundle_filepath: /mock-folder/main.js.",

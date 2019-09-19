@@ -87,7 +87,7 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
           ? { Authorization: `Bearer ${this.config.secret}` }
           : undefined;
 
-        const send = async (retryCount = this.config.retryCount): Promise<void> => {
+        const send = (retryCount = this.config.retryCount): Promise<void> => {
           const displayRetry = (this.config.retryCount || 0) - (retryCount || 0) > 0;
 
           logger.debug(
