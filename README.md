@@ -93,6 +93,14 @@ Optional. Default to `'warn'`. Level of the messages that `ElasticAPMSourceMapPl
 
 Optional. Default to `false`. Set it to `true` to avoid adding errors to the webpack compilation.
 
+#### retryCount?: number
+
+Optional. Default to `0`. Set it to `number` to retry upload sourcemaps when fail.
+
+#### retryAfterMs?: number
+
+Optional. Default to `0`. Set it to `number` to retry upload sourcemaps after specified milliseconds when fail.
+
 ## License
 
 [MIT](/LICENSE.md)

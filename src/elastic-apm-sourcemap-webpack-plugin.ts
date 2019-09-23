@@ -111,15 +111,17 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
               }
             })
             .catch((e: Error) => {
-              if (retryCount && retryCount > 0) {
+              if (retryCount && retryCount >= 1) {
                 logger.debug(`retry upload ${sourceMap} after ${this.config.retryAfterMs || 0}ms.`);
+                const remainCount = retryCount - 1;
+
                 return (new Promise(resolve => {
-                  if (this.config.retryCount) {
-                    setTimeout(() => resolve(retryCount), this.config.retryAfterMs);
+                  if (this.config.retryAfterMs) {
+                    setTimeout(() => resolve(remainCount), this.config.retryAfterMs);
                   } else {
-                    resolve(retryCount);
+                    resolve(remainCount);
                   }
-                }) as Promise<number>).then(retryCount => send(retryCount--));
+                }) as Promise<number>).then(remainCount => send(remainCount));
               }
               throw e;
             });
