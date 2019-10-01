@@ -127,7 +127,7 @@
     "codecov": "3.6.1",
     "commitizen": "4.0.3",
     "cz-conventional-changelog": "3.0.2",
-    "eslint": "6.5.0",
+    "eslint": "6.5.1",
     "husky": "3.0.7",
     "jest": "24.9.0",
     "jest-config": "24.9.0",
