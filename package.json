@@ -120,7 +120,7 @@
     "@types/jest": "25.1.4",
     "@types/node-fetch": "2.5.5",
     "@types/ramda": "0.26.40",
-    "@types/webpack": "4.41.8",
+    "@types/webpack": "4.41.9",
     "@typescript-eslint/eslint-plugin": "2.25.0",
     "@typescript-eslint/parser": "2.25.0",
     "babel-jest": "25.2.3",
