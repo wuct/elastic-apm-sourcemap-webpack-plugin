@@ -133,7 +133,7 @@
     "jest-config": "25.4.0",
     "jest-fetch-mock": "2.1.2",
     "lint-staged": "10.1.7",
-    "prettier": "2.0.4",
+    "prettier": "2.0.5",
     "rimraf": "3.0.2",
     "semantic-release": "17.0.6",
     "typescript": "3.8.3",
