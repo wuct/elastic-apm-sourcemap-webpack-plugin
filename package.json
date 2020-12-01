@@ -117,7 +117,7 @@
     "@semantic-release/npm": "7.0.8",
     "@semantic-release/release-notes-generator": "9.0.1",
     "@types/form-data": "2.5.0",
-    "@types/jest": "26.0.15",
+    "@types/jest": "26.0.16",
     "@types/node-fetch": "2.5.7",
     "@types/ramda": "0.27.32",
     "@types/webpack": "4.41.25",
