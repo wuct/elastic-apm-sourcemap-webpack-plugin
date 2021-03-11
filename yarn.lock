@@ -11967,10 +11967,10 @@ webidl-conversions@^6.1.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-6.1.0.tgz#9111b4d7ea80acd40f5270d666621afa78b69514"
   integrity sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==
 
-webpack-log@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/webpack-log/-/webpack-log-3.0.1.tgz#647c42231b6f74d7cc3c3a66510370e635d066ea"
-  integrity sha512-mX/6BJPPpxco6BGCFZJ96NjgnwBrLQx6d7Kxe1PaJ7KvjI3LFmJK9QgRPCAr9tXrPVawPN1cuM8hJ2Vadnwm+Q==
+webpack-log@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/webpack-log/-/webpack-log-3.0.2.tgz#edf64fe4cabffeb04a03ca44d89f9908a4a9d238"
+  integrity sha512-ijm2zgqTY2omtlxRNrtDqxAQOrfAGMxWg9fQB/kuFSeZjx/OkYnfYLqsjf/JkrWOHINMzqxaJDXaog6Mx9KaHg==
   dependencies:
     chalk "^2.4.2"
     loglevelnext "^3.0.1"
