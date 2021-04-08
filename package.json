@@ -118,7 +118,7 @@
     "@semantic-release/release-notes-generator": "9.0.2",
     "@types/form-data": "2.5.0",
     "@types/jest": "26.0.22",
-    "@types/node-fetch": "2.5.9",
+    "@types/node-fetch": "2.5.10",
     "@types/ramda": "0.27.39",
     "@types/webpack": "4.41.27",
     "@typescript-eslint/eslint-plugin": "4.21.0",
