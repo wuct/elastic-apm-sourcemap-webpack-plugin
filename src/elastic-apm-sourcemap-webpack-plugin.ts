@@ -63,7 +63,10 @@ export default class ElasticAPMSourceMapPlugin implements webpack.Plugin {
           }),
       R.map(({ sourceFile, sourceMap }) => {
         /* istanbul ignore next */
-        if (!sourceFile || !sourceMap) {
+        if (sourceFile && !sourceMap) {
+          // Assume the sourcemap's name if the value is blank
+          sourceMap = sourceFile + '.map'
+        } else if (!sourceFile || !sourceMap) {
           // It is impossible for Wepback to run into here.
           logger.debug('there is no .js files to be uploaded.');
           return Promise.resolve();
