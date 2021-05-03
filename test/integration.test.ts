@@ -18,10 +18,6 @@ const getWebpackConfig = (pluginConfig: Config): webpack.Configuration => ({
   entry: path.resolve(__dirname, './entry.js'),
   devtool: 'source-map',
   plugins: [new ElasticAPMSourceMapPlugin(pluginConfig)],
-  // TODO: remove this after Webpack 5
-  output: {
-    futureEmitAssets: true
-  }
 });
 
 beforeEach(() => {
@@ -46,7 +42,7 @@ test('send to the server successfully', cb => {
         return cb(err);
       }
 
-      if (stats.hasErrors()) {
+      if (stats?.hasErrors()) {
         return cb(stats.toJson().errors);
       }
 
@@ -149,7 +145,8 @@ test('append the secret as a bearer token when provided', cb => {
       serverURL: 'mock-url',
       secret: 'mock-secret'
     }),
-    () => {
+    err => {
+      expect(err).toBe(null);
       expect(require('node-fetch').mock.calls[0][1].headers).toEqual({
         Authorization: 'Bearer mock-secret'
       });
