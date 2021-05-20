@@ -3,6 +3,7 @@ import path from 'path';
 import mockFetch from 'jest-fetch-mock';
 import ElasticAPMSourceMapPlugin, { Config } from '../src/elastic-apm-sourcemap-webpack-plugin';
 
+const mockedTimeout = jest.spyOn(global, 'setTimeout');
 jest.mock('node-fetch', () => mockFetch);
 jest.mock('webpack-log', () => {
   const debugMock = jest.fn();
@@ -29,6 +30,7 @@ beforeEach(() => {
 
   require('webpack-log')().debug.mockReset();
   require('webpack-log')().error.mockReset();
+  mockedTimeout.mockClear();
 });
 
 test('send to the server successfully', cb => {
@@ -118,8 +120,87 @@ test('the server responses 400', cb => {
   );
 });
 
+test('the server responses 400 with retrying count set to 3', cb => {
+  require('node-fetch').mockResponses(
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }]
+  );
+
+  webpack(
+    getWebpackConfig({
+      serviceName: 'mock-service',
+      serviceVersion: 'mock-version',
+      publicPath: '/mock-folder',
+      serverURL: 'mock-url',
+      retryCount: 3
+    }),
+    err => {
+      expect(require('node-fetch').mock.calls.length).toEqual(4);
+      expect(err).toBeInstanceOf(Error);
+      setTimeout(() => {
+        cb();
+      }, 100);
+    }
+  );
+});
+
+test('the server responses 400 with retrying count set to 3 and retryAfterMs set to 5', cb => {
+  require('node-fetch').mockResponses(
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }]
+  );
+
+  webpack(
+    getWebpackConfig({
+      serviceName: 'mock-service',
+      serviceVersion: 'mock-version',
+      publicPath: '/mock-folder',
+      serverURL: 'mock-url',
+      retryCount: 3,
+      retryAfterMs: 5
+    }),
+    err => {
+      expect(require('node-fetch').mock.calls.length).toEqual(4);
+      expect(err).toBeInstanceOf(Error);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 5);
+      setTimeout(() => {
+        cb();
+      }, 100);
+    }
+  );
+});
+
 test('the server responses 400 but ignoreErrors is true', cb => {
   require('node-fetch').mockResponses(['failed', { status: 400 }]);
+
+  webpack(
+    getWebpackConfig({
+      serviceName: 'mock-service',
+      serviceVersion: 'mock-version',
+      publicPath: '/mock-folder',
+      serverURL: 'mock-url',
+      ignoreErrors: true
+    }),
+    err => {
+      expect(require('node-fetch').mock.calls.length).toEqual(1);
+      expect(err).toBe(null);
+
+      cb();
+    }
+  );
+});
+
+test('the server responses 400 with retrying count set to 3 and ignoreErrors is true', cb => {
+  require('node-fetch').mockResponses(
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }],
+    ['failed', { status: 400 }]
+  );
 
   webpack(
     getWebpackConfig({
