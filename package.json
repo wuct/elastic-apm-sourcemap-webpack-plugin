@@ -128,7 +128,7 @@
     "commitizen": "4.2.4",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "7.28.0",
-    "husky": "6.0.0",
+    "husky": "7.0.1",
     "jest": "27.0.4",
     "jest-config": "27.0.4",
     "jest-fetch-mock": "2.1.2",
