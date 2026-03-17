@@ -104,11 +104,11 @@
     "ramda": "^0.27.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.14.5",
-    "@babel/core": "7.14.6",
-    "@babel/node": "7.14.5",
-    "@babel/preset-env": "7.14.5",
-    "@babel/preset-typescript": "7.14.5",
+    "@babel/cli": "7.28.6",
+    "@babel/core": "7.29.0",
+    "@babel/node": "7.29.0",
+    "@babel/preset-env": "7.29.2",
+    "@babel/preset-typescript": "7.28.5",
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
     "@semantic-release/changelog": "6.0.3",
